@@ -1,0 +1,458 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FINISHER | Digit Intelligence</title>
+<style>
+:root {
+  --gold: #d9ad50;
+  --gold-light: #f5d88b;
+  --bg: #080a0e;
+  --panel: #11151c;
+  --muted: #858b98;
+  --green: #35d69a;
+  --red: #ff626c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% -15%, #30240f 0%, #11131a 38%, var(--bg) 75%);
+  color: #f5f5f5;
+  font-family: Arial, Helvetica, sans-serif;
+}
+header {
+  max-width: 850px;
+  margin: auto;
+  padding: 27px 20px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #29251c;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo {
+  width: 43px; height: 43px;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  display: grid; place-items: center;
+  color: var(--gold-light);
+  font-size: 23px; font-weight: 900;
+  box-shadow: 0 0 20px #d9ad5020;
+}
+.brand h1 {
+  margin: 0; color: var(--gold-light);
+  font-size: 25px; letter-spacing: 4px;
+}
+.brand small {
+  display: block; margin-top: 5px;
+  color: var(--muted); font-size: 9px;
+  letter-spacing: 2px;
+}
+.connection {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--muted); font-size: 11px;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #777;
+}
+.dot.online { background: var(--green); box-shadow: 0 0 10px var(--green); }
+main {
+  width: min(100% - 30px, 650px);
+  margin: 28px auto 40px;
+}
+.section-label {
+  color: var(--gold);
+  font-size: 10px; font-weight: bold;
+  letter-spacing: 2px; text-align: center;
+}
+.market-card, .prediction-card, .status-card, .stats-card {
+  background: linear-gradient(145deg, #171b23, #101319);
+  border: 1px solid #292d35;
+  border-radius: 17px;
+  box-shadow: 0 12px 35px #0005;
+}
+.market-card {
+  padding: 18px;
+  display: flex; justify-content: space-between;
+  align-items: center; gap: 12px;
+  margin-bottom: 17px;
+}
+.market-card label {
+  display: block; color: var(--muted);
+  font-size: 10px; letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+select {
+  background: #0b0e13; color: white;
+  border: 1px solid #45403a;
+  border-radius: 8px; padding: 10px;
+  font-size: 13px; outline: none;
+  max-width: 180px;
+}
+.market-right { text-align: right; }
+.market-right strong {
+  display: block; color: var(--gold-light);
+  font-size: 17px;
+}
+.market-right small { color: var(--muted); font-size: 10px; }
+.prediction-card {
+  position: relative; overflow: hidden;
+  padding: 29px 20px 25px;
+  text-align: center;
+  border-color: #725a2b;
+  background: radial-gradient(ellipse at 50% 0%, #49371955, transparent 65%), #12151b;
+}
+.prediction-card:before {
+  content: ""; position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 2px; background: var(--gold);
+  box-shadow: 0 0 18px var(--gold);
+}
+.prediction-card .section-label { margin-bottom: 17px; }
+.digit {
+  font-size: clamp(100px, 25vw, 145px);
+  line-height: .95; font-weight: 800;
+  color: var(--gold-light);
+  text-shadow: 0 0 35px #d9ad5033;
+  margin: 5px 0 12px;
+}
+.percentage {
+  font-size: 23px; font-weight: bold;
+  color: white;
+}
+.prediction-note {
+  color: var(--muted); font-size: 10px;
+  letter-spacing: 1.5px; margin-top: 10px;
+}
+.status-card {
+  margin-top: 17px; padding: 23px 16px;
+  text-align: center;
+}
+.status-icon {
+  font-size: 24px; margin-bottom: 10px;
+  color: var(--gold);
+}
+.status-title {
+  font-size: 17px; font-weight: 800;
+  letter-spacing: 1.5px; color: var(--gold-light);
+}
+.status-description {
+  color: var(--muted); font-size: 11px;
+  margin-top: 9px; line-height: 1.6;
+}
+.status-card.trade {
+  border-color: #247d5d;
+  background: radial-gradient(ellipse at 50% 0%, #165b4144, transparent 70%), #101a18;
+  animation: pulse 1.5s infinite alternate;
+}
+.status-card.trade .status-title,
+.status-card.trade .status-icon { color: var(--green); }
+@keyframes pulse {
+  from { box-shadow: 0 0 8px #35d69a15; }
+  to { box-shadow: 0 0 25px #35d69a35; }
+}
+.stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-top: 17px;
+}
+.stats-card { padding: 17px; }
+.stats-card span {
+  color: var(--muted); font-size: 10px;
+  letter-spacing: 1px;
+}
+.stats-card strong {
+  display: block; margin-top: 9px;
+  font-size: 21px; color: white;
+}
+.progress-wrap { margin-top: 18px; }
+.progress-head {
+  display: flex; justify-content: space-between;
+  color: var(--muted); font-size: 10px;
+  margin-bottom: 9px;
+}
+.progress {
+  height: 6px; border-radius: 20px;
+  background: #292d35; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #9d7129, var(--gold-light));
+  border-radius: inherit; transition: width .3s;
+}
+.analyse-wrap {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.analyse-button {
+  width: 100%;
+  max-width: 320px;
+  padding: 16px;
+  border: 1px solid var(--gold-light);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #9d7129, #e0b65b);
+  color: #111;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.analyse-button:active {
+  transform: scale(0.98);
+}
+
+footer {
+  text-align: center; padding: 20px;
+  color: #646b77; font-size: 9px;
+  letter-spacing: 1.5px;
+}
+@media(max-width:420px) {
+  header { padding: 20px 14px; }
+  .brand h1 { font-size: 21px; }
+  .connection { font-size: 9px; }
+  .market-card { padding: 14px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">F</div>
+    <div>
+      <h1>FINISHER</h1>
+      <small>DIGIT INTELLIGENCE</small>
+    </div>
+  </div>
+  <div class="connection">
+    <span class="dot" id="connectionDot"></span>
+    <span id="connectionText">CONNECTING</span>
+  </div>
+</header><main>
+  <div class="market-card">
+    <div>
+      <label>ACTIVE MARKET</label>
+      <select id="market">
+        <option value="1HZ10V">Volatility 10 (1s)</option>
+        <option value="1HZ15V">Volatility 15 (1s)</option>
+        <option value="1HZ25V">Volatility 25 (1s)</option>
+        <option value="1HZ30V">Volatility 30 (1s)</option>
+        <option value="1HZ50V">Volatility 50 (1s)</option>
+        <option value="1HZ75V">Volatility 75 (1s)</option>
+        <option value="1HZ90V">Volatility 90 (1s)</option>
+        <option value="1HZ100V">Volatility 100 (1s)</option>
+      </select>
+    </div>
+    <div class="market-right">
+      <strong id="marketName">VOL 10 (1s)</strong>
+      <small>DERIV LIVE FEED</small>
+    </div>
+  </div>  <div class="prediction-card">
+    <div class="section-label">PREDICTION DIGIT</div>
+    <div class="digit" id="predictionDigit">—</div>
+    <div class="percentage" id="predictionPercent">—%</div>
+    <div class="prediction-note" id="predictionNote">WAITING FOR QUALIFICATION</div>
+  </div>  <div class="status-card" id="statusCard">
+    <div class="status-icon" id="statusIcon">◉</div>
+    <div class="status-title" id="statusTitle">INITIALIZING</div>
+    <div class="status-description" id="statusDescription">
+      Preparing the 100-tick analysis engine
+    </div>
+  </div>  <div class="stats-grid">
+    <div class="stats-card">
+      <span>TICKS COLLECTED</span>
+      <strong id="tickCount">0 / 100</strong>
+    </div>
+    <div class="stats-card">
+      <span>ANALYSIS WINDOW</span>
+      <strong>100 TICKS</strong>
+    </div>
+  </div>  <div class="progress-wrap">
+    <div class="progress-head">
+      <span>SCANNING PROGRESS</span>
+      <span id="progressText">0%</span>
+    </div>
+    <div class="progress">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+<div class="analyse-wrap">
+  <button id="analyseButton" class="analyse-button">ANALYSE</button>
+</div>
+</main>
+<footer>FINISHER • PRECISION ANALYSIS SYSTEM</footer><script>
+const $ = id => document.getElementById(id);
+
+let socket;
+let reconnectTimer;
+let currentMarket = $('market').value;
+
+function setConnection(online, message) {
+  $('connectionDot').classList.toggle('online', online);
+  $('connectionText').textContent = message;
+}
+
+function setWaiting(title, description) {
+  $('statusCard').classList.remove('trade');
+  $('statusIcon').textContent = '◉';
+  $('statusTitle').textContent = title;
+  $('statusDescription').textContent = description;
+}
+
+function setTradeNow() {
+  $('statusCard').classList.add('trade');
+  $('statusIcon').textContent = '✓';
+  $('statusTitle').textContent = 'TRADE NOW';
+  $('statusDescription').textContent =
+    'The qualified hidden entry digit has appeared.';
+}
+
+function updateDashboard(data) {
+  if (data.market && data.market !== currentMarket) return;
+
+  if (data.signal === 'IDLE') {
+    $('predictionDigit').textContent = '—';
+    $('predictionPercent').textContent = '—%';
+    $('predictionNote').textContent = 'WAITING FOR QUALIFICATION';
+  }
+
+  if (Number.isFinite(data.tickCount)) {
+    const count = Math.max(0, Math.min(100, data.tickCount));
+
+    $('tickCount').textContent = count + ' / 100';
+    $('progressText').textContent = count + '%';
+    $('progressFill').style.width = count + '%';
+  }
+
+  if (data.predictionLocked === true &&
+      data.predictionDigit !== null &&
+      Number.isInteger(Number(data.predictionDigit))) {
+
+    $('predictionDigit').textContent = data.predictionDigit;
+
+    $('predictionPercent').textContent =
+      Number(data.predictionPercent).toFixed(2) + '%';
+
+    $('predictionNote').textContent = 'QUALIFIED PREDICTION';
+  }
+
+  if (data.signal === 'TRADE_NOW') {
+    setTradeNow();
+    return;
+  }
+
+  if (data.signal === 'WAITING') {
+    setWaiting(
+      'WAITING FOR ENTRY',
+      'Monitoring the hidden entry trigger'
+    );
+  } else if (data.signal === 'SCANNING') {
+    setWaiting(
+      'SCANNING MARKET',
+      'Collecting ticks for analysis'
+    );
+  } else if (data.signal === 'ANALYSING') {
+    setWaiting(
+      'ANALYSING DIGITS',
+      'Checking prediction and entry qualification'
+    );
+  }
+}
+
+function connect() {
+  clearTimeout(reconnectTimer);
+  const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  socket = new WebSocket(protocol + '//' + location.host);
+
+  socket.onopen = () => {
+    setConnection(true, 'CONNECTED');
+    socket.send(JSON.stringify({
+      action: 'subscribe',
+      market: currentMarket
+    }));
+  };
+
+  socket.onmessage = event => {
+  try {
+    const data = JSON.parse(event.data);
+
+    if (data.type === 'status') {
+      if (data.connected === false) {
+        setConnection(false, 'FEED OFFLINE');
+        return;
+      }
+
+      if (data.connected === true) {
+        setConnection(true, 'CONNECTED');
+        return;
+      }
+    }
+
+    if (data.type === 'analysis') {
+      updateDashboard(data);
+    }
+
+  } catch (error) {
+    console.error('Invalid server message', error);
+  }
+};
+  socket.onclose = () => {
+    setConnection(false, 'RECONNECTING');
+    reconnectTimer = setTimeout(connect, 3000);
+  };
+
+  socket.onerror = () => {
+    setConnection(false, 'CONNECTION ERROR');
+  };
+}
+$('analyseButton').addEventListener('click', () => {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({
+      action: 'analyse'
+    }));
+
+    $('predictionDigit').textContent = '—';
+    $('predictionPercent').textContent = '—%';
+    $('predictionNote').textContent = 'ANALYSIS STARTED';
+    $('tickCount').textContent = '0 / 100';
+    $('progressText').textContent = '0%';
+    $('progressFill').style.width = '0%';
+
+    setWaiting(
+      'SCANNING MARKET',
+      'Collecting a fresh 100-tick analysis window'
+    );
+  } else {
+    setWaiting(
+      'CONNECTION OFFLINE',
+      'Waiting for Deriv connection'
+    );
+  }
+});
+
+$('market').addEventListener('change', () => {
+  currentMarket = $('market').value;
+  $('marketName').textContent =
+    $('market').selectedOptions[0].text
+      .replace('Volatility ', 'VOL ');
+  $('predictionDigit').textContent = '—';
+  $('predictionPercent').textContent = '—%';
+  $('predictionNote').textContent = 'WAITING FOR QUALIFICATION';
+  $('tickCount').textContent = '0 / 100';
+  $('progressText').textContent = '0%';
+  $('progressFill').style.width = '0%';
+  setWaiting('SCANNING MARKET', 'Changing market and collecting ticks');
+
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({
+      action: 'subscribe',
+      market: currentMarket
+    }));
+  }
+});
+
+connect();
+</script></body>
+</html>

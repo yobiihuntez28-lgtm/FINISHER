@@ -1,0 +1,17 @@
+{
+  "name": "finisher",
+  "version": "1.0.0",
+  "description": "FINISHER Deriv digit analysis alert system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.3.0",
+    "ws": "^8.22.1"
+  }
+}
