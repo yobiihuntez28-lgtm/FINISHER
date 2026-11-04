@@ -254,6 +254,12 @@ footer {
     <div class="digit" id="predictionDigit">—</div>
     <div class="percentage" id="predictionPercent">—%</div>
     <div class="prediction-note" id="predictionNote">WAITING FOR QUALIFICATION</div>
+     <div class="prediction-card">
+    <div class="section-label">MOST APPEARING — ENTRY DIGIT</div>
+    <div class="digit" id="entryDigit">—</div>
+    <div class="percentage" id="entryPercent">—%</div>
+    <div class="prediction-note" id="entryNote">WAITING FOR QUALIFICATION</div>
+  </div>
   </div>  <div class="status-card" id="statusCard">
     <div class="status-icon" id="statusIcon">◉</div>
     <div class="status-title" id="statusTitle">INITIALIZING</div>
@@ -338,6 +344,18 @@ function updateDashboard(data) {
     $('predictionNote').textContent = 'QUALIFIED PREDICTION';
   }
 
+   if (data.predictionLocked === true &&
+      data.entryDigit !== null &&
+      Number.isInteger(Number(data.entryDigit))) {
+
+    $('entryDigit').textContent = data.entryDigit;
+
+    $('entryPercent').textContent =
+      Number(data.entryPercent).toFixed(2) + '%';
+
+    $('entryNote').textContent = 'QUALIFIED ENTRY TRIGGER';
+  }
+
   if (data.signal === 'TRADE_NOW') {
     setTradeNow();
     return;
@@ -416,6 +434,9 @@ $('analyseButton').addEventListener('click', () => {
     $('predictionDigit').textContent = '—';
     $('predictionPercent').textContent = '—%';
     $('predictionNote').textContent = 'ANALYSIS STARTED';
+      $('entryDigit').textContent = '—';
+$('entryPercent').textContent = '—%';
+$('entryNote').textContent = 'WAITING FOR QUALIFICATION';
     $('tickCount').textContent = '0 / 30';
     $('progressText').textContent = '0%';
     $('progressFill').style.width = '0%';

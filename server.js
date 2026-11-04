@@ -38,6 +38,7 @@ let tradeNowLocked = false;
 let predictionDigit = null;
 let predictionPercent = null;
 let hiddenEntryDigit = null;
+let entryPercent = null;
 
 let reconnectTimer = null;
 let reconnectDelay = 2000;
@@ -50,6 +51,8 @@ let latestAnalysis = {
     tickCount: 0,
     predictionDigit: null,
     predictionPercent: null,
+    entryDigit: null,
+    entryPercent: null,
     signal: "IDLE"
 };
 
@@ -70,8 +73,10 @@ function sendAnalysis(signal) {
         active: analysing,
         tickCount: Math.min(ticks.length, 30),
         predictionDigit,
-        predictionPercent,
-        predictionLocked,
+predictionPercent,
+entryDigit: hiddenEntryDigit,
+entryPercent,
+predictionLocked,
         tradeNowLocked,
         signal
     };
@@ -88,6 +93,7 @@ function resetCycle() {
     predictionDigit = null;
     predictionPercent = null;
     hiddenEntryDigit = null;
+    entryPercent = null;
 
     sendAnalysis("IDLE");
 }
@@ -101,6 +107,7 @@ function startAnalysis() {
     predictionDigit = null;
     predictionPercent = null;
     hiddenEntryDigit = null;
+    entryPercent = null;
 
     sendAnalysis("SCANNING");
 
@@ -327,7 +334,8 @@ const entryQualifies =
     if (predictionQualifies && entryQualifies) {
         predictionDigit = leastDigit;
         predictionPercent = minimum;
-        hiddenEntryDigit = mostDigits[0].digit;
+hiddenEntryDigit = mostDigits[0].digit;
+entryPercent = (maximum / 30) * 100;
 
         predictionLocked = true;
 
