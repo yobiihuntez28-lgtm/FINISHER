@@ -258,16 +258,16 @@ footer {
     <div class="status-icon" id="statusIcon">◉</div>
     <div class="status-title" id="statusTitle">INITIALIZING</div>
     <div class="status-description" id="statusDescription">
-      Preparing the 100-tick analysis engine
+      Preparing the 30-tick analysis engine
     </div>
   </div>  <div class="stats-grid">
     <div class="stats-card">
       <span>TICKS COLLECTED</span>
-      <strong id="tickCount">0 / 100</strong>
+      <strong id="tickCount">0 / 30</strong>
     </div>
     <div class="stats-card">
       <span>ANALYSIS WINDOW</span>
-      <strong>100 TICKS</strong>
+      <strong>30 TICKS</strong>
     </div>
   </div>  <div class="progress-wrap">
     <div class="progress-head">
@@ -319,9 +319,9 @@ function updateDashboard(data) {
   }
 
   if (Number.isFinite(data.tickCount)) {
-    const count = Math.max(0, Math.min(100, data.tickCount));
+    const count = Math.max(0, Math.min(30, data.tickCount));
 
-    $('tickCount').textContent = count + ' / 100';
+    $('tickCount').textContent = count + ' / 30';
     $('progressText').textContent = count + '%';
     $('progressFill').style.width = count + '%';
   }
@@ -416,13 +416,13 @@ $('analyseButton').addEventListener('click', () => {
     $('predictionDigit').textContent = '—';
     $('predictionPercent').textContent = '—%';
     $('predictionNote').textContent = 'ANALYSIS STARTED';
-    $('tickCount').textContent = '0 / 100';
+    $('tickCount').textContent = '0 / 30';
     $('progressText').textContent = '0%';
     $('progressFill').style.width = '0%';
 
     setWaiting(
       'SCANNING MARKET',
-      'Collecting a fresh 100-tick analysis window'
+      'Collecting a fresh 30-tick analysis window'
     );
   } else {
     setWaiting(
@@ -440,7 +440,7 @@ $('market').addEventListener('change', () => {
   $('predictionDigit').textContent = '—';
   $('predictionPercent').textContent = '—%';
   $('predictionNote').textContent = 'WAITING FOR QUALIFICATION';
-  $('tickCount').textContent = '0 / 100';
+  $('tickCount').textContent = '0 / 30';
   $('progressText').textContent = '0%';
   $('progressFill').style.width = '0%';
   setWaiting('SCANNING MARKET', 'Changing market and collecting ticks');

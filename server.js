@@ -68,7 +68,7 @@ function sendAnalysis(signal) {
         type: "analysis",
         market,
         active: analysing,
-        tickCount: Math.min(ticks.length, 100),
+        tickCount: Math.min(ticks.length, 30),
         predictionDigit,
         predictionPercent,
         predictionLocked,
@@ -281,7 +281,7 @@ if (tradeNowLocked) {
 
         ticks.push(digit);
 
-        if (ticks.length > 100) {
+        if (ticks.length > 30) {
             ticks.shift();
         }
 
@@ -289,14 +289,14 @@ if (tradeNowLocked) {
         return;
     }
 
-    // Collect the first 100 ticks.
+    // Collect the first 30 ticks.
     ticks.push(digit);
 
-    if (ticks.length > 100) {
+    if (ticks.length > 30) {
         ticks.shift();
     }
 
-    if (ticks.length < 100) {
+    if (ticks.length < 30) {
         sendAnalysis("SCANNING");
         return;
     }
@@ -318,10 +318,10 @@ if (tradeNowLocked) {
         .filter(item => item.count === maximum);
 
     const predictionQualifies =
-        minimum >= 0 && minimum <= 3;
+    minimum <= 1;
 
-    const entryQualifies =
-        maximum >= 14 && mostDigits.length === 1;
+const entryQualifies =
+    maximum >= 7 && mostDigits.length === 1;
 
     // Lock both conditions together.
     if (predictionQualifies && entryQualifies) {
